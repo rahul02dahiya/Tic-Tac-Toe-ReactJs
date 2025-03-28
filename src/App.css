@@ -1,0 +1,64 @@
+
+.App{
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+@media (max-width: 1024px) {
+  #board{
+    width: 80vw;
+    margin: 20px;
+    aspect-ratio: 1/1;
+  }
+}
+
+#board{
+  width: 800px;
+  aspect-ratio: 1/1;
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 4px;
+  background-color: rgb(0, 0, 0);
+  outline: 1px dotted rgb(192, 57, 255);
+}
+
+.square{
+  background-color: white;
+  border: none;
+  border-radius: 5%;
+  aspect-ratio: 1/1;
+}
+
+.icon{
+  width: 90%;
+  height: 90%;
+  aspect-ratio: 1/1;
+}
+
+.status{
+  color: cadetblue;
+  margin: 16px;
+}
+
+.panel{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+.reset-btn{
+  padding: 6px;
+  border-radius: 4px;
+  font-weight: bold;
+  background-color: rgba(255, 0, 0, 0.338);
+}
+
+.winner-squares{
+  background-color: #7eceff;
+  color: #fff;
+}
