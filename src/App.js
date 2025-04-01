@@ -24,16 +24,20 @@ function checkWinner(squareVal) {
 function App() {
 
   const [squareVal, setSquareVal] = useState(Array(9).fill(null));
+  const [history, sethistory] = useState([Array(9).fill(null)]);
   const [isXNext, setIsXNext] = useState(true);
-  const squareCopy = squareVal.slice();
+  const [currentStep, setcurrentStep] = useState(0);
+  const currentSquares = squareVal.slice();
 
   function handleClick(i) {
 
     if(squareVal[i] || checkWinner(squareVal)) return;
 
-    squareCopy[i] = isXNext?"X":"O";
-    setSquareVal(squareCopy);
+    currentSquares[i] = isXNext?"X":"O";
+    setSquareVal(currentSquares);
+    sethistory([...history.slice(0,currentStep),currentSquares]);
     setIsXNext(!isXNext);
+    setcurrentStep(currentStep+1);
   }
 
   const winnerData = checkWinner(squareVal);
@@ -43,6 +47,7 @@ function App() {
 
   if (winner) {
     status = "Winner " + winner;
+    console.log(history);
   }
   else{
     status = "Next Turn" + (isXNext?"X":"O");
@@ -50,13 +55,31 @@ function App() {
 
   function reset() {
     setSquareVal(Array(9).fill(null));
+    setcurrentStep(0);
+  }
+
+  function moveBackward() {
+    if(currentStep>=0){
+      setSquareVal(history[currentStep-1]);
+      setcurrentStep(currentStep-1);
+  }
+  }
+
+  function moveForward() {
+    if(currentStep<history.length-1){
+      setSquareVal(history[currentStep+1]);
+      setcurrentStep(currentStep+1);
+    }
   }
 
   return (
     <div className="App">
       <div className="panel">
+        <h1>{currentStep}</h1>
       <h1 className='status'>{status}</h1>
-      <span><button className='reset-btn' onClick={reset}>Reset</button></span>
+      <span><button className='reset-btn btn' onClick={reset}>Reset</button></span>
+      <span><button onClick={moveBackward} className='history-btn btn'>&lt;</button></span>
+      <span><button onClick={moveForward} className='history-btn btn'>&gt;</button></span>
       </div>
      
       <div id="board">

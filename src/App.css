@@ -8,22 +8,23 @@
   flex-direction: column;
 }
 
-@media (max-width: 1024px) {
-  #board{
-    width: 80vw;
-    margin: 20px;
-    aspect-ratio: 1/1;
-  }
-}
-
 #board{
-  width: 800px;
+  max-width: 800px;
+  width: 100%;
   aspect-ratio: 1/1;
   display: grid;
   grid-template-columns: repeat(3,1fr);
   gap: 4px;
   background-color: rgb(0, 0, 0);
   outline: 1px dotted rgb(192, 57, 255);
+}
+
+@media (max-width: 1024px) {
+  #board{
+    width: 80vw;
+    margin: 20px;
+    aspect-ratio: 1/1;
+  }
 }
 
 .square{
@@ -52,11 +53,19 @@
 }
 
 .reset-btn{
+  background-color: rgba(255, 0, 0, 0.338);
+}
+
+.history-btn{
+  background-color: rgba(0, 123, 255, 0.338);
+}
+
+.btn{
   padding: 6px;
   border-radius: 4px;
   font-weight: bold;
-  background-color: rgba(255, 0, 0, 0.338);
 }
+
 
 .winner-squares{
   background-color: #7eceff;
