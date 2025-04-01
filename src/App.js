@@ -1,10 +1,13 @@
-
 import { useState } from 'react';
 import './App.css';
+import { GiSkullCrossedBones } from "react-icons/gi";
+import { GiAngelOutfit } from "react-icons/gi";
+
+
 
 function Square({value, onSquareClick, winner}) {
 
-  return <button onClick={onSquareClick} className={`square ${winner ? "winner-squares" : ""}`}>{value}</button>;
+  return <button onClick={onSquareClick} className={`square ${winner ? "winner-squares" : ""}`}>{value === "X" ? <GiSkullCrossedBones className='icon'/> : value === "O" ? <GiAngelOutfit className='icon'/> : null }</button>;
 }
 
 function checkWinner(squareVal) {
@@ -27,15 +30,18 @@ function App() {
   const [history, sethistory] = useState([Array(9).fill(null)]);
   const [isXNext, setIsXNext] = useState(true);
   const [currentStep, setcurrentStep] = useState(0);
-  const currentSquares = squareVal.slice();
 
   function handleClick(i) {
 
     if(squareVal[i] || checkWinner(squareVal)) return;
 
-    currentSquares[i] = isXNext?"X":"O";
-    setSquareVal(currentSquares);
-    sethistory([...history.slice(0,currentStep),currentSquares]);
+    const newSquares = [...squareVal];
+    newSquares[i] = isXNext ? "X" : "O";
+
+    setSquareVal(newSquares);
+
+    const newHistory = [...history.slice(0,currentStep+1),newSquares];
+    sethistory(newHistory);
     setIsXNext(!isXNext);
     setcurrentStep(currentStep+1);
   }
@@ -55,13 +61,16 @@ function App() {
 
   function reset() {
     setSquareVal(Array(9).fill(null));
+    sethistory([Array(9).fill(null)]);
     setcurrentStep(0);
+    setIsXNext(true);
   }
 
   function moveBackward() {
-    if(currentStep>=0){
+    if(currentStep>0){
       setSquareVal(history[currentStep-1]);
       setcurrentStep(currentStep-1);
+      setIsXNext(currentStep % 2 === 0);
   }
   }
 
@@ -69,6 +78,7 @@ function App() {
     if(currentStep<history.length-1){
       setSquareVal(history[currentStep+1]);
       setcurrentStep(currentStep+1);
+      setIsXNext(currentStep % 2 !== 0);
     }
   }
 
